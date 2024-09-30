@@ -1,8 +1,9 @@
 #!/bin/bash
 ###############################################
 # This script will provide temporary admin    #
-# rights to a standard user right from self   #
-# service. First it will grab the username of #
+# rights to a standard user when run with     #
+# sudo by this user.                          #
+# First it will grab the username of          #
 # the logged in user, elevate them to admin   #
 # and then create a launch daemon that will   #
 # count down from 30 minutes and then create  #
@@ -16,14 +17,12 @@
 # Change into script's directory
 cd "$(dirname $0)"
 
-#############################################
-# find the logged in user and let them know #
-#############################################
+
+# find the logged in user and let them know
+# (works when the script is run with sudo)
 
 currentUser=$(who | awk '/console/{print $1}')
 echo $currentUser
-
-osascript -e 'display dialog "You now have administrative rights for 30 minutes. DO NOT ABUSE THIS PRIVILEGE..." buttons {"Make me an admin, please"} default button 1'
 
 #########################################################
 # write a daemon that will let you remove the privilege #
@@ -50,10 +49,11 @@ chmod 644 /Library/LaunchDaemons/removeAdmin.plist
 #Load the daemon 
 launchctl load /Library/LaunchDaemons/removeAdmin.plist
 
-##############################################
-# Remember which user was given admin rights #
-##############################################
-
+# Wait for LaunchDaemon to start
+sleep 2
+# Notify the user
+osascript -e 'display dialog "You now have administrative rights for 30 minutes. DO NOT ABUSE THIS PRIVILEGE..." buttons {"Make me an admin, please"} default button 1'
+# Remember which user was given admin rights
 echo $currentUser >> usersToRemove
 
 ##################################
