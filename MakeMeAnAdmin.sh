@@ -35,7 +35,7 @@ osascript -e 'display dialog "You now have administrative rights for 30 minutes.
 defaults write /Library/LaunchDaemons/removeAdmin.plist Label -string "removeAdmin"
 
 #Add program argument to have it run the update script
-defaults write /Library/LaunchDaemons/removeAdmin.plist ProgramArguments -array -string /bin/sh -string "/Library/Application Support/JAMF/removeAdminRights.sh"
+defaults write /Library/LaunchDaemons/removeAdmin.plist ProgramArguments -array -string /bin/sh -string "/opt/MakeMeAnAdmin/RemoveAdmin.sh"
 
 #Set the run inverval to run every 30 mins
 defaults write /Library/LaunchDaemons/removeAdmin.plist StartInterval -integer 1800
@@ -50,9 +50,9 @@ chmod 644 /Library/LaunchDaemons/removeAdmin.plist
 #Load the daemon 
 launchctl load /Library/LaunchDaemons/removeAdmin.plist
 
-###############################################
+##############################################
 # Remember which user was given admin rights #
-###############################################
+##############################################
 
 echo $currentUser >> usersToRemove
 

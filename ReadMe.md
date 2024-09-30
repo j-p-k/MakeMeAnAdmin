@@ -4,7 +4,7 @@ This script, when run, will allow a standard user to upgrade themselves to an ad
 
 ## Setup
 
-Install the scriptfile in /opt/MakeMeAnAdmin/MakeMeAnAdmin.sh
+Install the script files in `/opt/MakeMeAnAdmin/`
 
 Allow the user to run this particular script as root. To this end, edit the sudoers file
 using the `sudo visudo` command. (If the editor is vim, prees `i` for insert mode and 
